@@ -16,7 +16,7 @@ export const projects: Project[] = [
     title: "FICTIONHUB",
     description: "This project is a simple yet functional eBook library system developed using PHP and MySQL. It allows users to register, log in, browse digital books, borrow and return them, and for administrators to manage books, categories, and users through a dedicated dashboard.",
     tags: ["PHP", "Laragon", "Tailwind CSS"],
-    image: "/FICTIONHUB.PNG",
+    image: "/FICTIONHUB.png",
     hasImage: true,
     liveUrl: "",
     githubUrl: "https://github.com/GaleAdi/FICTIONHUB",

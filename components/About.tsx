@@ -114,7 +114,7 @@ export default function About() {
               }}
             >
               <Image
-                src="/images/about-photo.jpg"
+                src="/images/about-photo.JPG"
                 alt={`${profile.name} — about photo`}
                 fill
                 className="object-contain"

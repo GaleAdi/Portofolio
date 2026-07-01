@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio
 
-## Getting Started
+A personal portfolio website built with Next.js 14, TypeScript, Tailwind CSS, and Framer Motion.
 
-First, run the development server:
+## Tech Stack
+
+- **Framework**: [Next.js 14](https://nextjs.org/) (App Router)
+- **Language**: TypeScript
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **Email**: [Resend](https://resend.com/) (contact form)
+- **Icons**: [Lucide React](https://lucide.dev/)
+
+## Local Development
+
+### Prerequisites
+
+- Node.js 18+
+- npm 9+
+
+### Setup
 
 ```bash
+# Clone the repository
+git clone <your-repo-url>
+cd portfolio
+
+# Install dependencies
+npm install
+
+# Create environment variables
+cp .env.local.example .env.local
+# Then fill in your values:
+#   RESEND_API_KEY=your_resend_api_key_here
+#   CONTACT_EMAIL=your@email.com
+
+# Start the dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the site.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Description |
+|---|---|
+| `RESEND_API_KEY` | API key from [Resend](https://resend.com/). Get one at resend.com — free tier is sufficient. |
+| `CONTACT_EMAIL` | Your email address. Incoming contact form submissions will be sent here. |
 
-## Learn More
+## Deploy with Vercel
 
-To learn more about Next.js, take a look at the following resources:
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/import?repository-url=<your-repo-url>)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+> After deploying, set the `RESEND_API_KEY` and `CONTACT_EMAIL` environment variables in the Vercel dashboard under Settings → Environment Variables.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
+```
+portfolio/
+├── app/
+│   ├── api/contact/route.ts   # Contact form API endpoint
+│   ├── globals.css            # Global styles + Tailwind
+│   ├── layout.tsx             # Root layout + metadata
+│   └── page.tsx              # Main page
+├── components/
+│   ├── About.tsx              # About section
+│   ├── BackToTop.tsx          # Floating back-to-top button
+│   ├── Contact.tsx            # Contact form section
+│   ├── Experience.tsx         # Work experience timeline
+│   ├── Footer.tsx             # Site footer
+│   ├── Hero.tsx               # Hero section
+│   ├── MotionProvider.tsx     # Framer Motion LazyMotion wrapper
+│   ├── Navbar.tsx             # Sticky navigation
+│   └── Projects.tsx           # Projects grid with filtering
+├── data/
+│   ├── experience.ts          # Experience data
+│   ├── profile.ts             # Personal profile data
+│   └── projects.ts            # Projects data
+├── public/
+│   └── images/
+│       └── profile.jpg        # Profile photo (add your own)
+├── .env.local                 # Environment variables (gitignored)
+├── .gitignore
+├── next.config.ts
+├── package.json
+├── README.md
+├── tailwind.config.ts
+└── tsconfig.json
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Adding Your Content
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Edit the files in `data/` to customize:
+
+- **data/profile.ts** — Name, bio, social links, skills
+- **data/projects.ts** — Project entries (title, description, tags, URLs)
+- **data/experience.ts** — Work experience entries
+
+Add your profile photo as `public/images/profile.jpg`.

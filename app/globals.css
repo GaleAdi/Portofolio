@@ -1,26 +1,240 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: #1a1a1a;
+  --color-accent: #2baa92;
+  --color-cta: #3b82f6;
+  --color-surface: #f9fafb;
+  --color-bg: #ffffff;
+  --color-text: #1a1a1a;
+  --color-text-body: #374151;
+  --color-muted: #6b7280;
+  --color-border: #e5e7eb;
+  --font-sans: "Inter", system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f9fafb;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ============================
+   BASE
+   ============================ */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: #1a1a1a;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #ffffff;
+  font-family: "Inter", system-ui, sans-serif;
+  min-height: 100vh;
 }
+
+/* ============================
+   BUTTONS — illusiongap style
+   ============================ */
+
+/* Primary button — charcoal bg, lifts on hover */
+.btn-primary {
+  color: #fff;
+  cursor: pointer;
+  background-color: #1a1a1a;
+  border: 1px solid #1a1a1a;
+  border-radius: 0.75rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  display: inline-flex;
+  text-decoration: none;
+}
+.btn-primary:hover {
+  background-color: #374151;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 0 #1a1a1a;
+  color: #fff;
+}
+.btn-primary:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
+
+/* Neon button — teal bg, lifts on hover */
+.btn-neon {
+  color: #1a1a1a;
+  cursor: pointer;
+  background-color: #2baa92;
+  border: 1px solid #1a1a1a;
+  border-radius: 0.75rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  display: inline-flex;
+  text-decoration: none;
+}
+.btn-neon:hover {
+  background-color: #238e79;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 0 #1a1a1a;
+  color: #1a1a1a;
+}
+.btn-neon:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
+
+/* Outline button — white bg, fills charcoal on hover with teal shadow */
+.btn-outline {
+  color: #1a1a1a;
+  cursor: pointer;
+  background: #ffffff;
+  border: 1px solid #1a1a1a;
+  border-radius: 0.75rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  display: inline-flex;
+  text-decoration: none;
+}
+.btn-outline:hover {
+  color: #ffffff;
+  background-color: #1a1a1a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 0 #2baa92;
+}
+.btn-outline:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
+
+/* ============================
+   CARDS — illusiongap style
+   ============================ */
+
+.card {
+  background-color: #ffffff;
+  border: 1px solid #1a1a1a;
+  border-radius: 2rem;
+  padding: 2.5rem;
+  box-shadow: 0 5px 0 #1a1a1a;
+}
+
+.card-hover {
+  background-color: #ffffff;
+  border: 1px solid #1a1a1a;
+  border-radius: 2rem;
+  padding: 2.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 5px 0 #1a1a1a;
+  cursor: pointer;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 0 #1a1a1a;
+}
+
+/* ============================
+   INPUTS — illusiongap style
+   ============================ */
+
+.input {
+  color: #1a1a1a;
+  background-color: #ffffff;
+  border: 1px solid #1a1a1a;
+  border-radius: 0.75rem;
+  outline: none;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+.input:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 0 #1a1a1a;
+}
+.input::placeholder {
+  color: #9ca3af;
+}
+
+.textarea {
+  color: #1a1a1a;
+  resize: vertical;
+  background-color: #ffffff;
+  border: 1px solid #1a1a1a;
+  border-radius: 0.75rem;
+  outline: none;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+.textarea:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 0 #1a1a1a;
+}
+.textarea::placeholder {
+  color: #9ca3af;
+}
+
+/* ============================
+   ANIMATIONS
+   ============================ */
+
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  to  { opacity: 1; }
+}
+
+.animate-fade-up {
+  animation: 0.6s ease-out forwards fadeUp;
+}
+
+.animate-fade-in {
+  animation: 0.4s ease-out forwards fadeIn;
+}
+
+.delay-100 { opacity: 0; animation-delay: 0.1s; }
+.delay-200 { opacity: 0; animation-delay: 0.2s; }
+.delay-300 { opacity: 0; animation-delay: 0.3s; }
+.delay-400 { opacity: 0; animation-delay: 0.4s; }

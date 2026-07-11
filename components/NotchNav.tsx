@@ -93,21 +93,22 @@ export default function NotchNav({
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="fixed top-0 left-0 right-0 z-50"
+        className="fixed top-0 left-0 right-0 z-50 overflow-x-hidden"
+        style={{ maxWidth: "100vw" }}
       >
         <div
           className={clsx(
-            "bg-white transition-shadow duration-300",
+            "w-full bg-white transition-shadow duration-300",
             scrolled && "shadow-sm"
           )}
           style={{ borderBottom: scrolled ? "1px solid #e5e7eb" : "1px solid transparent" }}
         >
-          <div className="max-w-5xl mx-auto px-6">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6">
             <div className="flex items-center justify-between h-16">
               {/* Mobile hamburger — left side */}
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="md:hidden text-[#1a1a1a] p-1"
+                className="md:hidden text-[#1a1a1a] p-1 flex-shrink-0"
                 aria-label="Toggle menu"
               >
                 {mobileOpen ? <X size={22} /> : <Menu size={22} />}
@@ -161,10 +162,10 @@ export default function NotchNav({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="fixed top-[65px] left-0 right-0 z-40 bg-white shadow-lg md:hidden"
+            className="fixed top-[65px] left-0 right-0 z-40 bg-white shadow-lg md:hidden overflow-x-hidden"
             style={{ borderBottom: "1px solid #e5e7eb" }}
           >
-            <div className="max-w-5xl mx-auto px-6 py-4 flex flex-col gap-1">
+            <div className="w-full px-4 py-4 flex flex-col gap-1">
               {items.map((item) => (
                 <button
                   key={item.value}

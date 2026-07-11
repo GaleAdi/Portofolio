@@ -238,3 +238,8 @@ body {
 .delay-200 { opacity: 0; animation-delay: 0.2s; }
 .delay-300 { opacity: 0; animation-delay: 0.3s; }
 .delay-400 { opacity: 0; animation-delay: 0.4s; }
+
+/* ============================
+   reCAPTCHA v3 invisible badge
+   ============================ */
+.grecaptcha-badge { visibility: hidden !important; }

@@ -1,19 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { MapPin } from "lucide-react";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { profile } from "@/data/profile";
-
-declare global {
-  interface Window {
-    grecaptcha: {
-      render: (container: HTMLElement, params: Record<string, unknown>) => string;
-      getResponse: (widgetId?: string) => string;
-      reset: (widgetId?: string) => void;
-    };
-  }
-}
 
 const LinkedInSvg = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -61,47 +52,25 @@ export default function Contact() {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const recaptchaRef = useRef<HTMLDivElement>(null);
-  const widgetIdRef = useRef<string | null>(null);
-
-  useEffect(() => {
-    const renderRecaptcha = () => {
-      if (
-        recaptchaRef.current &&
-        window.grecaptcha &&
-        !widgetIdRef.current
-      ) {
-        widgetIdRef.current = window.grecaptcha.render(recaptchaRef.current, {
-          sitekey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
-          theme: "dark",
-        });
-      }
-    };
-
-    if (window.grecaptcha) {
-      renderRecaptcha();
-    } else {
-      const interval = setInterval(() => {
-        if (window.grecaptcha) {
-          clearInterval(interval);
-          renderRecaptcha();
-        }
-      }, 200);
-      return () => clearInterval(interval);
-    }
-  }, []);
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!executeRecaptcha) {
+      setStatus("error");
+      return;
+    }
+
     setStatus("loading");
 
-    const recaptchaToken = window.grecaptcha?.getResponse(widgetIdRef.current ?? undefined);
+    const token = await executeRecaptcha("contact_form");
 
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, subject, message, recaptchaToken }),
+        body: JSON.stringify({ name, email, subject, message, recaptchaToken: token }),
       });
 
       if (res.ok) {
@@ -110,9 +79,6 @@ export default function Contact() {
         setEmail("");
         setSubject("");
         setMessage("");
-        if (widgetIdRef.current) {
-          window.grecaptcha.reset(widgetIdRef.current);
-        }
       } else {
         setStatus("error");
       }
@@ -300,9 +266,6 @@ export default function Contact() {
               )}
 
               <motion.div variants={fieldVariants}>
-                <div className="flex justify-center mb-4">
-                  <div ref={recaptchaRef} />
-                </div>
                 <button
                   type="submit"
                   disabled={status === "loading"}
@@ -320,6 +283,9 @@ export default function Contact() {
                     </>
                   )}
                 </button>
+                <p className="text-xs text-gray-400 text-center mt-2">
+                  This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply.
+                </p>
               </motion.div>
             </motion.form>
           </motion.div>

@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import MotionProvider from "@/components/MotionProvider";
 import BackToTop from "@/components/BackToTop";
+import Script from "next/script";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -63,6 +64,10 @@ export default function RootLayout({
           {children}
           <BackToTop />
         </MotionProvider>
+        <Script
+          src="https://www.google.com/recaptcha/api.js"
+          strategy="lazyOnload"
+        />
       </body>
     </html>
   );

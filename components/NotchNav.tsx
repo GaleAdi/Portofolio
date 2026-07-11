@@ -113,11 +113,11 @@ export default function NotchNav({
                 {mobileOpen ? <X size={22} /> : <Menu size={22} />}
               </button>
 
-              {/* Centered NotchNav */}
+              {/* Centered NotchNav — desktop only */}
               <nav
                 ref={navRef}
                 aria-label={ariaLabel}
-                className="relative flex items-center gap-1 rounded-full px-2 py-1 mx-auto"
+                className="relative hidden md:flex items-center gap-1 rounded-full px-2 py-1 mx-auto"
                 style={{
                   background: "#f3f4f6",
                   border: "1px solid #e5e7eb",
@@ -148,8 +148,6 @@ export default function NotchNav({
                 ))}
               </nav>
 
-              {/* Spacer to balance hamburger on mobile */}
-              <div className="md:hidden w-6" />
             </div>
           </div>
         </div>

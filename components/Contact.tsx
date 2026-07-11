@@ -1,9 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { MapPin } from "lucide-react";
 import { profile } from "@/data/profile";
+
+declare global {
+  interface Window {
+    grecaptcha: {
+      render: (container: HTMLElement, params: Record<string, unknown>) => string;
+      getResponse: (widgetId?: string) => string;
+      reset: (widgetId?: string) => void;
+    };
+  }
+}
 
 const LinkedInSvg = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -51,16 +61,47 @@ export default function Contact() {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const recaptchaRef = useRef<HTMLDivElement>(null);
+  const widgetIdRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    const renderRecaptcha = () => {
+      if (
+        recaptchaRef.current &&
+        window.grecaptcha &&
+        !widgetIdRef.current
+      ) {
+        widgetIdRef.current = window.grecaptcha.render(recaptchaRef.current, {
+          sitekey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
+          theme: "dark",
+        });
+      }
+    };
+
+    if (window.grecaptcha) {
+      renderRecaptcha();
+    } else {
+      const interval = setInterval(() => {
+        if (window.grecaptcha) {
+          clearInterval(interval);
+          renderRecaptcha();
+        }
+      }, 200);
+      return () => clearInterval(interval);
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("loading");
 
+    const recaptchaToken = window.grecaptcha?.getResponse(widgetIdRef.current ?? undefined);
+
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, subject, message }),
+        body: JSON.stringify({ name, email, subject, message, recaptchaToken }),
       });
 
       if (res.ok) {
@@ -69,6 +110,9 @@ export default function Contact() {
         setEmail("");
         setSubject("");
         setMessage("");
+        if (widgetIdRef.current) {
+          window.grecaptcha.reset(widgetIdRef.current);
+        }
       } else {
         setStatus("error");
       }
@@ -256,6 +300,9 @@ export default function Contact() {
               )}
 
               <motion.div variants={fieldVariants}>
+                <div className="flex justify-center mb-4">
+                  <div ref={recaptchaRef} />
+                </div>
                 <button
                   type="submit"
                   disabled={status === "loading"}
